@@ -1,0 +1,4 @@
+[build]
+  functions = "./functions" # This tells Netlify where your serverless functions are
+  publish = "build" # The folder that Netlify should deploy as your site
+  command = "npm run build" # The build command to run before deploying your site
