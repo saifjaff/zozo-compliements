@@ -148,7 +148,7 @@ const App: React.FC = () => {
               <option key={index} value={option}>{option}</option>
             ))}
           </select>
-          <button onClick={handleSubmit}>Submit</button>
+          <button onClick={handleSubmit}>Next</button>
         </>
       ) : showKanyeImage ? (
         <>
