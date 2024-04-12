@@ -69,7 +69,7 @@ const App: React.FC = () => {
   };
 
   const isDateInRange = (date: Date): boolean => {
-    const startDate = new Date("April 11, 2024");
+    const startDate = new Date("April 12, 2024");
     const endDate = new Date("April 25, 2024");
     return date >= startDate && date <= endDate;
   };
