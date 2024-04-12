@@ -135,7 +135,7 @@ const App: React.FC = () => {
     <div className="valentine-container">
       {showThankYouPage ? (
         <>
-          <img alt="bears kissing" src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" />
+          <img alt="bears kissing" src="https://gifdb.com/images/high/funny-thank-you-cute-cat-sa4ikvlzc28sopj5.gif" />
           <div className="text">Thank you!</div>
           <button onClick={handleSetTimeClick}>Set Time</button>
         </>
@@ -162,7 +162,7 @@ const App: React.FC = () => {
         <div style={{ textAlign: "center" }}>{renderGameOptions()}</div>
       ) : (
         <>
-          <img alt="bear with hearts" src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif" />
+          <img alt="bear with hearts" src="https://gifdb.com/images/high/two-cute-animated-cats-question-mark-nwc23naz1c05cmvb.gif" />
           <div>Ms. Rubab Raza, will you go out with me?</div>
           <div>
             <button className="yesButton" style={{ fontSize: yesButtonSize }} onClick={handleYesClick}>Yes</button>
