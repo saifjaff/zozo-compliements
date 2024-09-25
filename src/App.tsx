@@ -1,175 +1,132 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import { Heart, Smile, Frown, Trophy, Star } from "lucide-react";
 import "./App.css";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
-const phrases = [
-  "No",
-  "Are you sure Rubab?",
-  "Really sure?",
-  "RUBAB ?!?!??",
-  "Please reconsider",
-  "Don't do this to me... RUBAB ?!?",
-  "I'm gonna cry Rubab...",
-  "You're breaking my heart Rubab;(",
-];
+const compliments = {
+  happy: [
+    "Zozo, your smile brightens my day!",
+    "Your laughter is contagious!",
+    "Seeing you happy makes everything better.",
+    "Your joy radiates and lights up the room!",
+    "I love seeing you in such high spirits!",
+    "Your happiness is a gift to everyone around you.",
+    "That smile of yours is absolutely gorgeous, Zoya!",
+    "You make the world a brighter place just by being you!",
+    "Your positive energy is absolutely incredible!",
+    "Babe, your happiness is the perfect cure for any bad day!",
+  ],
+  sad: [
+    "I'm here for you, always.",
+    "Zoya, this too shall pass. You're stronger than you know.",
+    "Wish I could give you a big hug right now.",
+    "It's okay to not be okay sometimes. Your feelings are valid.",
+    "I'm just a call away if you need to talk.",
+    "You're not alone in this. We'll get through it together.",
+    "Sending you all my love and support, Zozo.",
+    "You're so brave for facing these feelings.",
+    "I believe in your strength to overcome this, babe.",
+    "Remember, even the darkest night will end and the sun will rise.",
+  ],
+  needsMotivation: [
+    "You've got this! Your dedication to dental school is inspiring!",
+    "Remember how far you've come in your studies. You're amazing!",
+    "Every challenge you overcome is a step towards becoming an incredible dentist!",
+    "Your commitment to learning is truly admirable, Zoya!",
+    "You're going to make such a difference in your patients' lives!",
+    "Keep pushing forward. Your hard work will pay off!",
+    "Zozo, you have the power to transform smiles and boost confidence!",
+    "Your passion for dentistry shines through in everything you do!",
+    "Believe in yourself as much as I believe in you, babe!",
+    "Remember, every expert was once a beginner. You're on your way to greatness!",
+  ],
+  missingYou: [
+    "I miss you more than words can express.",
+    "Counting down the moments until I see you again.",
+    "The world feels a little less bright without you here.",
+    "Zozo, every love song I hear reminds me of you.",
+    "I see reminders of you in the little things around me.",
+    "The distance is tough, but our love is tougher.",
+    "Carrying you in my thoughts until I can hold you in my arms.",
+    "Zoya, you're the missing piece to my puzzle right now.",
+    "Babe, can't wait to create more memories with you soon!",
+    "Missing your smile, your laugh, and everything about you.",
+  ],
+};
 
-const foodOptions = ["Coffee", "Sushi", "Ice Cream", "Dosa"];
-const kanyeImageUrl = "https://i.kym-cdn.com/entries/icons/facebook/000/033/421/cover2.jpg";
-const clbImageUrl = "https://upload.wikimedia.org/wikipedia/en/7/79/Drake_-_Certified_Lover_Boy.png";
-const dondaImageUrl = "https://upload.wikimedia.org/wikipedia/commons/a/a0/Almost_black_square_020305.png";
-const denverNuggetsJeansImageUrl = "https://i.ytimg.com/vi/eE7weltxfh8/hqdefault.jpg";
-const yankeeNoBrimImageUrl = "https://i.kym-cdn.com/entries/icons/facebook/000/033/446/cover4.jpg";
+type Mood = keyof typeof compliments;
 
-const App: React.FC = () => {
-  const [noCount, setNoCount] = useState<number>(0);
-  const [showThankYouPage, setShowThankYouPage] = useState<boolean>(false);
-  const [showCalendarPage, setShowCalendarPage] = useState<boolean>(false);
-  const [showKanyeImage, setShowKanyeImage] = useState<boolean>(false);
-  const [showGame, setShowGame] = useState<boolean>(false);
-  const [gameStage, setGameStage] = useState<number>(0);
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [food, setFood] = useState<string>("");
-  const [q1, setQ1] = useState<string>("");
-  const [q2, setQ2] = useState<string>("");
-  const yesButtonSize: number = noCount * 20 + 16;
+const App = () => {
+  const [currentMood, setCurrentMood] = useState<Mood | null>(null);
+  const [currentCompliment, setCurrentCompliment] = useState("");
 
-  const handleNoClick = (): void => {
-    setNoCount(noCount + 1);
+  const getRandomCompliment = (mood: Mood) => {
+    const moodCompliments = compliments[mood];
+    const randomIndex = Math.floor(Math.random() * moodCompliments.length);
+    return moodCompliments[randomIndex];
   };
 
-  const getNoButtonText = (): string => {
-    return phrases[Math.min(noCount, phrases.length - 1)];
-  };
-
-  const handleYesClick = (): void => {
-    setShowGame(true);
-    setShowKanyeImage(true);
-    setShowThankYouPage(true);
-  };
-
-  const handleSetTimeClick = (): void => {
-    setShowThankYouPage(false);
-    setShowCalendarPage(true);
-  };
-
-  const handleGameClick = (): void => {
-    setShowGame(true);
-    setShowKanyeImage(false);
-    setShowThankYouPage(false);
-  };
-
-  const handleGameChoice = (choice: string): void => {
-    if (gameStage === 0) {
-      setQ1(choice);
-    } else if (gameStage === 1) {
-      setQ2(choice);
+  useEffect(() => {
+    if (currentMood) {
+      setCurrentCompliment(getRandomCompliment(currentMood));
     }
-    setGameStage(gameStage + 1);
+  }, [currentMood]);
+
+  const handleMoodSelection = (mood: Mood) => {
+    setCurrentMood(mood);
   };
 
-  const isDateInRange = (date: Date): boolean => {
-    const startDate = new Date("April 12, 2024");
-    const endDate = new Date("April 25, 2024");
-    return date >= startDate && date <= endDate;
-  };
-
-  const handleSubmit = async (): Promise<void> => {
-    const response = {
-      response: noCount,
-      date: selectedDate.toDateString(),
-      place: food, 
-      q1: q1,
-      q2: q2,
-      user: "Rubab", 
-      time: new Date().toISOString(),
-    };
-
-    try {
-      const netlifyResponse = await fetch('/.netlify/functions/submitResponse', {
-        method: 'POST',
-        body: JSON.stringify({ data: [response] }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!netlifyResponse.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      setShowCalendarPage(false); // Hide calendar page after submission
-      setShowKanyeImage(true);    // Show Kanye image after submission
-
-    } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
+  const handleNewCompliment = () => {
+    if (currentMood) {
+      setCurrentCompliment(getRandomCompliment(currentMood));
     }
   };
 
-  const renderGameOptions = () => {
-    switch (gameStage) {
-      case 0:
-        return (
-          <>
-            <img src={clbImageUrl} alt="CLB" style={{ width: "150px", height: "auto" }} />
-            <button onClick={() => handleGameChoice("CLB")}>CLB</button>
-            <img src={dondaImageUrl} alt="DONDA" style={{ width: "150px", height: "auto" }} />
-            <button onClick={() => handleGameChoice("DONDA")}>DONDA</button>
-          </>
-        );
-      case 1:
-        return (
-          <>
-            <img src={denverNuggetsJeansImageUrl} alt="Denver Nuggets Jeans" style={{ width: "150px", height: "auto" }} />
-            <button onClick={() => handleGameChoice("Denver Nuggets Jeans")}>Denver Nuggets Jeans</button>
-            <img src={yankeeNoBrimImageUrl} alt="Yankee No Brim" style={{ width: "150px", height: "auto" }} />
-            <button onClick={() => handleGameChoice("Yankee No Brim")}>Yankee No Brim</button>
-          </>
-        );
-      default:
-        return <p>SEE YOU ON {selectedDate.toDateString()} FOR {food}</p>;
-    }
+  const resetMood = () => {
+    setCurrentMood(null);
+    setCurrentCompliment("");
   };
 
   return (
-    <div className="valentine-container">
-      {showThankYouPage ? (
-        <>
-          <img alt="bears kissing" src="https://gifdb.com/images/high/funny-thank-you-cute-cat-sa4ikvlzc28sopj5.gif" />
-          <div className="text">Thank you!</div>
-          <button onClick={handleSetTimeClick}>Set Time</button>
-        </>
-      ) : showCalendarPage ? (
-        <>
-          <DatePicker selected={selectedDate} onChange={(date: Date) => setSelectedDate(date)} filterDate={isDateInRange} dateFormat="MMMM d, yyyy" />
-          <select value={food} onChange={(e) => setFood(e.target.value)}>
-            <option value="">Select Food Preference</option>
-            {foodOptions.map((option, index) => (
-              <option key={index} value={option}>{option}</option>
-            ))}
-          </select>
-          <button onClick={handleSubmit}>Next</button>
-        </>
-      ) : showKanyeImage ? (
-        <>
-          <img src={kanyeImageUrl} alt="Kanye West" style={{ width: "100%", height: "auto" }} />
-          <button onClick={handleGameClick} style={{ display: "block", margin: "20px auto" }}>
-            Want to play a quick game?
-          </button>
-          {showThankYouPage && <div className="text">Thank you!</div>}
-        </>
-      ) : showGame ? (
-        <div style={{ textAlign: "center" }}>{renderGameOptions()}</div>
-      ) : (
-        <>
-          <img alt="bear with hearts" src="https://gifdb.com/images/high/two-cute-animated-cats-question-mark-nwc23naz1c05cmvb.gif" />
-          <div>Ms. Rubab Raza, will you go out with me?</div>
-          <div>
-            <button className="yesButton" style={{ fontSize: yesButtonSize }} onClick={handleYesClick}>Yes</button>
-            <button className="noButton" onClick={handleNoClick}>{getNoButtonText()}</button>
-          </div>
-        </>
-      )}
+    <div className="compliment-container">
+      <div className="compliment-card">
+        <img 
+          src="https://gifdb.com/images/high/cute-love-bear-roses-ou7zho5oosxnpo6k.gif" 
+          alt="cute love bear" 
+          className="love-image"
+        />
+        {currentMood ? (
+          <>
+            <h2 className="compliment-text">{currentCompliment}</h2>
+            <button
+              className="new-compliment-button"
+              onClick={handleNewCompliment}
+            >
+              New Message <Heart className="inline-icon" />
+            </button>
+            <button onClick={resetMood} className="change-mood-button">
+              Change Mood
+            </button>
+          </>
+        ) : (
+          <>
+            <h2 className="mood-prompt">How are you feeling today, my favorite dentist?</h2>
+            <div className="mood-buttons">
+              <button onClick={() => handleMoodSelection('happy')} className="mood-button happy">
+                <Smile /> Happy
+              </button>
+              <button onClick={() => handleMoodSelection('sad')} className="mood-button sad">
+                <Frown /> Sad
+              </button>
+              <button onClick={() => handleMoodSelection('needsMotivation')} className="mood-button motivation">
+                <Trophy /> Need Motivation
+              </button>
+              <button onClick={() => handleMoodSelection('missingYou')} className="mood-button missing">
+                <Star /> Missing You
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

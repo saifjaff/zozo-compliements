@@ -1,7 +1,135 @@
-.valentine-container {
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.compliment-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  padding: 20px;
+}
+
+.compliment-card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.love-image {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.compliment-text {
+  font-size: 24px;
+  color: #ff69b4;
+  margin-bottom: 25px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  height: 100vh;
+}
+
+.new-compliment-button, .change-mood-button {
+  background-color: #ff69b4;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.new-compliment-button:hover, .change-mood-button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.change-mood-button {
+  background-color: #e91e63;
+  margin-top: 20px;
+}
+
+.inline-icon {
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.mood-prompt {
+  font-size: 24px;
+  color: #ff69b4;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.mood-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.mood-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mood-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.mood-button .lucide {
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+.mood-button.happy {
+  background-color: #4caf50;
+}
+
+.mood-button.sad {
+  background-color: #2196f3;
+}
+
+.mood-button.motivation {
+  background-color: #ff9800;
+}
+
+.mood-button.missing {
+  background-color: #9c27b0;
+}
+
+.mood-greeting {
+  font-size: 28px;
+  color: #ff69b4;
+  margin-bottom: 15px;
+  font-weight: bold;
 }
